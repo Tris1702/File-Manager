@@ -1,0 +1,3 @@
+giao tiep vao ra file, ...
+giao tiep api
+giao tiep mang
