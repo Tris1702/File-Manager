@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
-            android:src="@drawable/ic_list"
+            android:src="@drawable/ic_grid_on"
             app:layout_constraintBottom_toTopOf="@+id/rcv_all_file"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints" />
@@ -54,14 +54,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_all_file"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_category"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/item_file"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import com.example.file_manager.common.Constant
 import com.example.file_manager.databinding.ActivityFileListBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class FileListActivity : AppCompatActivity() {
@@ -19,8 +20,8 @@ class FileListActivity : AppCompatActivity() {
     private var isGrid = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_file_list)
         binding = ActivityFileListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val gridLayout = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
         val listLayout = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -32,23 +33,22 @@ class FileListActivity : AppCompatActivity() {
         if(path.isNullOrBlank()){
             path = Constant.path
         }
-//run ho vơi
         lifecycleScope.launch(Dispatchers.IO) {
             File(path).listFiles()?.let {
                 for (file in it) {
                     files.add(file)
                 }
+                Log.e("list file size", files.size.toString())
+                binding.rcvAllFile.adapter = AllFileAdapter(applicationContext, files)
             }
-            Log.e("list file size", files.size.toString())
-            binding.rcvAllFile.adapter = AllFileAdapter(applicationContext, files)
-            Log.e("list file size", "adapter" )
+            withContext(Dispatchers.Main){
+                if(files.size == 0){
+                    binding.txtNoFile.visibility = View.VISIBLE
+                    binding.layoutCategory.visibility = View.GONE
+                    binding.rcvAllFile.visibility = View.GONE
+                }
+            }
         }
-        if(files == null || files.size == 0){
-            binding.txtNoFile.visibility = View.VISIBLE
-            binding.layoutCategory.visibility = View.GONE
-            return
-        }
-//ấn đi, ấn nút để mở cái recycler view tren điện thọia ấy, mơr app là cái rcv luôn r
         binding.imgLayoutChange.setOnClickListener {
             Log.e("click", "change")
             if (isGrid) {

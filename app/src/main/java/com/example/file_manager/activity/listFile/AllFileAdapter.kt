@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.file_manager.R
 import java.io.File
 
-class AllFileAdapter(private val context: Context, var files: ArrayList<File>)
+class AllFileAdapter(private val context: Context?, private var files: ArrayList<File>)
     : RecyclerView.Adapter<AllFileAdapter.AllFileViewHolder>() {
 
     inner class AllFileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -43,7 +43,7 @@ class AllFileAdapter(private val context: Context, var files: ArrayList<File>)
                 var intent = Intent(context, FileListActivity::class.java)
                 intent.putExtra("path", path)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
+                context?.startActivity(intent)
             }
         }
     }
@@ -53,6 +53,6 @@ class AllFileAdapter(private val context: Context, var files: ArrayList<File>)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllFileViewHolder {
-        return AllFileViewHolder(LayoutInflater.from(context).inflate(R.layout.item_file, parent, false))
+        return AllFileViewHolder((LayoutInflater.from(context).inflate(R.layout.item_file, parent, false)) as View)
     }
 }

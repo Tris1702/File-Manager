@@ -35,4 +35,3 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 111)
     }
 }
-//đẩy lên git để tôi clone về xem sao
