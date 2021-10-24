@@ -23,8 +23,8 @@ class FileListActivity : AppCompatActivity() {
         binding = ActivityFileListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val gridLayout = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
-        val listLayout = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val gridLayout = GridLayoutManager(applicationContext, 3, GridLayoutManager.VERTICAL, false)
+        val listLayout = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
         binding.rcvAllFile.layoutManager = listLayout
         Log.e("rcv", "layout")
 
