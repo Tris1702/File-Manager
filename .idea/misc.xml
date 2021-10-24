@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_folder.xml" value="0.1796875" />
+        <entry key="app/src/main/res/drawable/ic_grid_on.xml" value="0.2234375" />
         <entry key="app/src/main/res/drawable/ic_music_file.xml" value="0.24635416666666668" />
         <entry key="app/src/main/res/drawable/ic_play.xml" value="0.337037037037037" />
         <entry key="app/src/main/res/drawable/ic_unknown_file.xml" value="0.2774358974358974" />
@@ -13,7 +14,7 @@
         <entry key="app/src/main/res/layout/activity_music_player.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_show_all_file.xml" value="0.24166666666666667" />
-        <entry key="app/src/main/res/layout/item_file.xml" value="0.18541666666666667" />
+        <entry key="app/src/main/res/layout/item_file.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_row.xml" value="0.24166666666666667" />
       </map>
     </option>
