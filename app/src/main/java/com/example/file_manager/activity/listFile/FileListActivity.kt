@@ -44,7 +44,6 @@ class FileListActivity : AppCompatActivity() {
             withContext(Dispatchers.Main){
                 if(files.size == 0){
                     binding.txtNoFile.visibility = View.VISIBLE
-                    binding.layoutCategory.visibility = View.GONE
                     binding.rcvAllFile.visibility = View.GONE
                 }
             }
