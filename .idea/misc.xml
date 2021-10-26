@@ -10,8 +10,9 @@
         <entry key="app/src/main/res/drawable/ic_unknown_file.xml" value="0.2774358974358974" />
         <entry key="app/src/main/res/layout/activity_external_file.xml" value="0.278125" />
         <entry key="app/src/main/res/layout/activity_file_list.xml" value="0.18541666666666667" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_music_player.xml" value="0.35989583333333336" />
+        <entry key="app/src/main/res/layout/fragment_file_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_show_all_file.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/item_file.xml" value="0.33" />

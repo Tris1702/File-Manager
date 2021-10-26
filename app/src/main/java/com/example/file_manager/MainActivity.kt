@@ -8,9 +8,13 @@ import android.os.Environment
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.file_manager.activity.listFile.OnBackPressed
 import com.example.file_manager.common.Constant
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var onBackPressed: OnBackPressed
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,6 +25,19 @@ class MainActivity : AppCompatActivity() {
             requestPermission()
         }
     }
+
+
+    override fun onBackPressed() {
+
+        if(onBackPressed.isClosed()){
+            super.onBackPressed()
+        }
+        else{
+            onBackPressed.onClick()
+        }
+
+    }
+
     private fun checkPermission(): Boolean{
         val res = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if(res == PackageManager.PERMISSION_GRANTED)

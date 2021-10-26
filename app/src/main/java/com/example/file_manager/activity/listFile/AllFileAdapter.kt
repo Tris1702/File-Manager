@@ -9,50 +9,49 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.file_manager.R
+import com.example.file_manager.databinding.ItemFileBinding
 import java.io.File
 
-class AllFileAdapter(private val context: Context?, private var files: ArrayList<File>)
+class AllFileAdapter(private var onItemClick: (String) -> Unit)
     : RecyclerView.Adapter<AllFileAdapter.AllFileViewHolder>() {
+    var listFile = ArrayList<File>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
-    inner class AllFileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgFile: ImageView = itemView.findViewById(R.id.img_icon_file)
-        var tvName: TextView = itemView.findViewById(R.id.txt_file_name)
-
-        fun bind(file: File){
-            tvName.text = file.name
-            if(file.isDirectory){
-                imgFile.setImageResource(R.drawable.ic_folder)
+    inner class AllFileViewHolder(private val binding: ItemFileBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(file: File) {
+            with(binding){
+                txtFileName.text = file.name
+                if(file.isDirectory){
+                    imgIconFile.setImageResource(R.drawable.ic_folder)
+                }
+                else {
+                    imgIconFile.setImageResource(R.drawable.ic_normal_file)
+                }
             }
-            else{
-                imgFile.setImageResource(R.drawable.ic_normal_file)
+            binding.root.setOnClickListener {
+                onItemClick(file.path)
             }
         }
+
     }
 
     override fun onBindViewHolder(holder: AllFileViewHolder, position: Int) {
-        holder.tvName.text = files[position].name
-        if(files[position].isDirectory){
-            holder.imgFile.setImageResource(R.drawable.ic_folder)
-        }
-        else{
-            holder.imgFile.setImageResource(R.drawable.ic_normal_file)
-        }
-        holder.itemView.setOnClickListener {
-            if(files[position].isDirectory){
-                val path = files[position].absolutePath
-                var intent = Intent(context, FileListActivity::class.java)
-                intent.putExtra("path", path)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context?.startActivity(intent)
-            }
-        }
+        holder.bind(listFile[position])
     }
 
     override fun getItemCount(): Int {
-        return files.size
+        return listFile.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllFileViewHolder {
-        return AllFileViewHolder((LayoutInflater.from(context).inflate(R.layout.item_file, parent, false)) as View)
+        val binding = ItemFileBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AllFileViewHolder(binding)
     }
 }

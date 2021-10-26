@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FileManager">
         <activity
-            android:name=".activity.listFile.FileListActivity"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
