@@ -1,4 +1,4 @@
-package com.example.file_manager.activity.listFile
+package com.example.file_manager.inf
 
 interface OnBackPressed {
     fun onClick()

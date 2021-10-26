@@ -6,7 +6,7 @@
     app:startDestination="@id/fileListFragment">
     <fragment
         android:id="@+id/fileListFragment"
-        android:name="com.example.file_manager.activity.listFile.FileListFragment"
+        android:name="com.example.file_manager.fragment.listAllFile.FileListFragment"
         android:label="fragment_file_list"
         tools:layout="@layout/fragment_file_list" />
 </navigation>
