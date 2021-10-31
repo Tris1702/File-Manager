@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.home.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_home_files"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/img_image_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20sp"
+            android:src="@drawable/ic_image_file" />
+
+        <TextView
+            android:id="@+id/txt_image_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Image"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_image_file"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/img_doc_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="148dp"
+            android:src="@drawable/ic_doc_file"
+            app:layout_constraintEnd_toStartOf="@+id/img_audio_file"
+            app:layout_constraintHorizontal_bias="0.006"
+            app:layout_constraintStart_toEndOf="@+id/img_image_file"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/txt_doc_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Document"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/txt_audio_file"
+            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintStart_toEndOf="@+id/txt_image_file"
+            app:layout_constraintTop_toBottomOf="@+id/img_doc_file"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/img_audio_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="144dp"
+            android:paddingRight="20sp"
+            android:src="@drawable/ic_audio_file"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/txt_audio_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Audio"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_audio_file"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/img_other_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:paddingLeft="20sp"
+            android:src="@drawable/ic_all_file"
+            app:layout_constraintTop_toBottomOf="@+id/txt_image_file"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/txt_other_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Other"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_other_file"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/img_video_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="144dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_video_file"
+            app:layout_constraintEnd_toStartOf="@+id/img_down_file"
+            app:layout_constraintHorizontal_bias="0.032"
+            app:layout_constraintStart_toEndOf="@+id/img_other_file"
+            app:layout_constraintTop_toBottomOf="@+id/txt_doc_file" />
+
+        <TextView
+            android:id="@+id/txt_video_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Video"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/txt_down_file"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toEndOf="@+id/txt_other_file"
+            app:layout_constraintTop_toBottomOf="@+id/img_video_file"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/img_down_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="144dp"
+            android:layout_marginTop="24dp"
+            android:paddingRight="20sp"
+            android:src="@drawable/ic_download_file"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_audio_file" />
+
+        <TextView
+            android:id="@+id/txt_down_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Download"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_down_file"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
