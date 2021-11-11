@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ANDROID_TDA/MoveFile/app/src/main/res/layout/activity_main.xml" value="0.20989583333333334" />
+        <entry key="..\:/ANDROID_TDA/MoveFile/app/src/main/res/layout/fragment_file_list.xml" value="0.21145833333333333" />
         <entry key="app/src/main/res/drawable/ic_folder.xml" value="0.1796875" />
         <entry key="app/src/main/res/drawable/ic_grid_on.xml" value="0.2234375" />
         <entry key="app/src/main/res/drawable/ic_music_file.xml" value="0.24635416666666668" />
@@ -20,7 +22,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

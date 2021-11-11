@@ -1,10 +1,12 @@
 package com.example.file_manager.fragment.listAllFile
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.file_manager.MainActivity
@@ -17,7 +19,7 @@ import timber.log.Timber.DebugTree
 
 class FileListFragment : Fragment(), OnBackPressed {
     private lateinit var binding: FragmentFileListBinding
-    private val viewModel: FileListViewModel by lazy { FileListViewModel() }
+    private val viewModel: FileListViewModel by lazy { FileListViewModel }
     val gridLayout = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
     val listLayout = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
@@ -34,11 +36,43 @@ class FileListFragment : Fragment(), OnBackPressed {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = AllFileAdapter{
             viewModel.openFolder(it)
         }
+
+
+        /**
+         setting class handle menu mode
+
+         **/
+        adapter.setHandleMenuMode(object :ClassHandleMenuMode(){
+            override fun changeMenuMode() {
+                if(FileListViewModel.menuMode == MenuMode.OPEN)
+                {
+                    binding.menu.visibility = View.VISIBLE
+                    FileListViewModel.menuMode = MenuMode.SELECT
+                }
+                else
+                {
+                    binding.menu.visibility = View.GONE
+                    FileListViewModel.menuMode = MenuMode.OPEN
+                }
+            }
+        })
+
+        binding.btnCopy.setOnClickListener{
+            FileListViewModel.copy()
+        }
+
+        binding.btnPaste.setOnClickListener {
+            FileListViewModel.paste()
+        }
+
+
+
         binding.rcvAllFile.layoutManager = listLayout
 
         binding.rcvAllFile.adapter = adapter
@@ -81,5 +115,7 @@ class FileListFragment : Fragment(), OnBackPressed {
     override fun isClosed(): Boolean {
         return viewModel.isRoot()
     }
+
+
 
 }
