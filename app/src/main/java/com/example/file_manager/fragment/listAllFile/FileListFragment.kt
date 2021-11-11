@@ -50,27 +50,32 @@ class FileListFragment : Fragment(), OnBackPressed {
          **/
         adapter.setHandleMenuMode(object :ClassHandleMenuMode(){
             override fun changeMenuMode() {
-                if(FileListViewModel.menuMode == MenuMode.OPEN)
+                if(viewModel.menuMode == MenuMode.OPEN)
                 {
                     binding.menu.visibility = View.VISIBLE
-                    FileListViewModel.menuMode = MenuMode.SELECT
+                    viewModel.menuMode = MenuMode.SELECT
                 }
                 else
                 {
                     binding.menu.visibility = View.GONE
-                    FileListViewModel.menuMode = MenuMode.OPEN
+                    viewModel.menuMode = MenuMode.OPEN
                 }
             }
         })
 
         binding.btnCopy.setOnClickListener{
-            FileListViewModel.copy()
+            viewModel.copy()
         }
 
         binding.btnPaste.setOnClickListener {
-            FileListViewModel.paste()
+            viewModel.paste()
         }
 
+        binding.btnShare.setOnClickListener {
+            context?.let {
+                viewModel.share(it)
+            }
+        }
 
 
         binding.rcvAllFile.layoutManager = listLayout

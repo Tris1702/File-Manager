@@ -63,14 +63,18 @@
             android:id="@+id/btn_copy"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:text="copy"
-            ></Button>
+            android:text="copy"/>
         <Button
             android:id="@+id/btn_paste"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:text="paste"
-            ></Button>
+            android:text="paste"/>
+
+        <Button
+            android:id="@+id/btn_share"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="share"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

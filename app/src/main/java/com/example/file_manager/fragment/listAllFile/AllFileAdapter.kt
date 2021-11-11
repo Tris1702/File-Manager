@@ -3,7 +3,6 @@ package com.example.file_manager.fragment.listAllFile
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.file_manager.R
@@ -17,9 +16,7 @@ import com.example.file_manager.common.Constant
 import timber.log.Timber
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
-import kotlin.io.path.copyTo
 
 
 class AllFileAdapter(private var onItemClick: (String) -> Unit)
@@ -58,17 +55,10 @@ class AllFileAdapter(private var onItemClick: (String) -> Unit)
 
                 root.setOnClickListener {
                     if (file.isDirectory) {
-
                         FileListViewModel.currentDictionary = file
-//                        Log.e("absolutePath Dictionary",file.absolutePath)
-//                        Log.e("++WETS"+this.javaClass.simpleName,file.nameWithoutExtension)
-//                        Log.e("++ETS"+this.javaClass.simpleName,file.extension)
                         onItemClick(file.path)
                     }
                     else{
-//                        Log.e(this.javaClass.simpleName,file.toString())
-//                        Log.e("++WETS"+this.javaClass.simpleName,file.nameWithoutExtension)
-//                        Log.e("++ETS"+this.javaClass.simpleName,file.extension)
                         openFile(file, binding.root.context)
                     }
                 }
@@ -80,13 +70,8 @@ class AllFileAdapter(private var onItemClick: (String) -> Unit)
                 In this branch, handle only move
                  */
                 root.setOnLongClickListener {
-//                    val filePath = file.absolutePath
-//                    val intentShare = Intent(Intent.ACTION_VIEW)
-//                    intentShare.type = "application/docx"
-
                     FileListViewModel.selectedFile = file
                     handleMenuMode?.changeMenuMode()
-
                     true
                 }
             }
@@ -122,37 +107,6 @@ class AllFileAdapter(private var onItemClick: (String) -> Unit)
                 false
             }
         }
-
-//        private fun prompt(msg : String) : String {
-//            print("$msg => ")
-//            return readLine() ?: ""
-//        }
-
-//        @RequiresApi(Build.VERSION_CODES.O)
-//        fun main(args : Array<String>){
-//            when (args.size){
-//                2 -> {
-//                    val src = Paths.get(args[0])
-//                    val dest = Paths.get(args[1])
-//
-//                    if (dest.exists()){
-//                        val answer = prompt("File exists! Replace (y/n)?")
-//                        if(answer.toLowerCase() == "y"){
-//                            src.move(dest, true)
-//                            println("Moving complete")
-//                        } else {
-//                            println("Canceled...")
-//                        }
-//                    } else {
-//                        src.move(dest)
-//                        println("Moving complete")
-//                    }
-//                }
-//                else -> {
-//                    println("Usage: src dest")
-//                }
-//            }
-//        }
 
     }
 

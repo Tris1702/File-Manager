@@ -5,13 +5,23 @@
       <map>
         <entry key="..\:/ANDROID_TDA/MoveFile/app/src/main/res/layout/activity_main.xml" value="0.20989583333333334" />
         <entry key="..\:/ANDROID_TDA/MoveFile/app/src/main/res/layout/fragment_file_list.xml" value="0.21145833333333333" />
+        <entry key="app/src/main/res/drawable/action_bar_style.xml" value="0.14537037037037037" />
+        <entry key="app/src/main/res/drawable/button_syle.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_audio.xml" value="0.16574074074074074" />
+        <entry key="app/src/main/res/drawable/ic_document.xml" value="0.37025641025641026" />
+        <entry key="app/src/main/res/drawable/ic_download.xml" value="0.37025641025641026" />
         <entry key="app/src/main/res/drawable/ic_folder.xml" value="0.1796875" />
         <entry key="app/src/main/res/drawable/ic_grid_on.xml" value="0.2234375" />
+        <entry key="app/src/main/res/drawable/ic_image.xml" value="0.2675925925925926" />
         <entry key="app/src/main/res/drawable/ic_music_file.xml" value="0.24635416666666668" />
+        <entry key="app/src/main/res/drawable/ic_other.xml" value="0.37025641025641026" />
         <entry key="app/src/main/res/drawable/ic_play.xml" value="0.337037037037037" />
         <entry key="app/src/main/res/drawable/ic_unknown_file.xml" value="0.2774358974358974" />
+        <entry key="app/src/main/res/drawable/ic_video.xml" value="0.37025641025641026" />
+        <entry key="app/src/main/res/drawable/search_bar_style.xml" value="0.2675925925925926" />
         <entry key="app/src/main/res/layout/activity_external_file.xml" value="0.278125" />
         <entry key="app/src/main/res/layout/activity_file_list.xml" value="0.18541666666666667" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_music_player.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/fragment_file_list.xml" value="0.33" />
