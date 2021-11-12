@@ -2,13 +2,10 @@ package com.example.file_manager.activity
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.file_manager.common.Constant
 import com.example.file_manager.databinding.ActivityHomeBinding
 import timber.log.Timber
@@ -27,6 +24,7 @@ class HomeActivity : AppCompatActivity() {
         if(checkPermission()){
             Constant.path = Environment.getExternalStorageDirectory().path
             Constant.pathDownload = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+            Timber.e(Constant.path)
         }
         else{
             requestPermission()
@@ -89,20 +87,40 @@ class HomeActivity : AppCompatActivity() {
 
 
     private fun checkPermission(): Boolean{
-        return (EasyPermissions.hasPermissions(
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            (EasyPermissions.hasPermissions(
+                    this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                ))
+        } else {
+            (EasyPermissions.hasPermissions(
                 this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ))
+        }
 
     }
     private fun requestPermission(){
-        EasyPermissions.requestPermissions(
-            this,
-            "This app needs access to your storage",
-            111,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            EasyPermissions.requestPermissions(
+                this,
+                "This app needs access to your storage",
+                111,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE
+            )
+        } else {
+            EasyPermissions.requestPermissions(
+                this,
+                "This app needs access to your storage",
+                111,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }
     }
 }

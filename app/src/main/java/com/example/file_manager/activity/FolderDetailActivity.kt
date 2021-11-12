@@ -1,5 +1,6 @@
 package com.example.file_manager.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.file_manager.databinding.ActivityFolderDetailBinding
@@ -21,7 +22,7 @@ class FolderDetailActivity : AppCompatActivity() {
         }
 
         binding.searchBar.setOnClickListener {
-
+            startActivity(Intent(this, SearchResultActivity::class.java))
         }
 
     }

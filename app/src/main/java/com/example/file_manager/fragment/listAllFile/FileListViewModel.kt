@@ -80,7 +80,7 @@ object FileListViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO){
             val listFiles = ArrayList<File>()
             val specificFiles = ArrayList<File>()
-            listFiles.addAll(File(Constant.path).listFiles()!!)
+            File(Constant.path).listFiles()?.let{ listFiles.addAll(it) }
             var pos = 0
             while (pos < listFiles.size){
                 val file = listFiles[pos]
