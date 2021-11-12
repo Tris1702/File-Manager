@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
@@ -16,6 +15,7 @@ import com.example.file_manager.BuildConfig
 import com.example.file_manager.common.Constant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import java.nio.file.Paths
 import java.util.*
@@ -25,6 +25,7 @@ import kotlin.io.path.copyTo
 object FileListViewModel : ViewModel() {
     var typeOfFolder = "other"
     val stackPath = Stack<String>()
+    val stackLastItemDisplay = Stack<Int>()
     private val _files: MutableLiveData< ArrayList<File> > = MutableLiveData()
     val files: LiveData<ArrayList<File>> = _files
 
@@ -122,7 +123,7 @@ object FileListViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO){
             val newFile = File(currentDictionary, folderName)
             if (!newFile.exists()){
-                Log.e("create folder", "createFolder: ok", )
+                Timber.d("A new folder is created")
                 newFile.mkdir()
                 _files.value?.add(newFile)
                 _files.postValue(_files.value)
