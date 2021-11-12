@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FileManager">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.FolderDetailActivity"
             android:exported="true" />
         <activity
             android:name=".activity.HomeActivity"

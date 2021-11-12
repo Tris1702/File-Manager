@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.provider.ContactsContract
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
@@ -19,20 +18,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
-import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.*
-import java.util.jar.Manifest
 import kotlin.collections.ArrayList
 import kotlin.io.path.copyTo
 
 object FileListViewModel : ViewModel() {
+    var typeOfFolder = "other"
     val stackPath = Stack<String>()
     private val _files: MutableLiveData< ArrayList<File> > = MutableLiveData()
     val files: LiveData<ArrayList<File>> = _files
 
     private val _isGrid: MutableLiveData<Boolean> = MutableLiveData()
     val isGrid: LiveData<Boolean> = _isGrid
+
+    private val _stateLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val stateLoading: LiveData<Boolean> = _stateLoading
+
 
     /**
      Variable copy - paste file
@@ -47,7 +49,6 @@ object FileListViewModel : ViewModel() {
     }
 
     fun openFolder(path: String){
-
         stackPath.push(path)
         getFiles(path)
     }
@@ -62,7 +63,6 @@ object FileListViewModel : ViewModel() {
     }
 
     private fun getFiles(path: String) {
-
         viewModelScope.launch(Dispatchers.IO){
             val listFiles = ArrayList<File>()
             File(path).listFiles()?.let{
@@ -72,6 +72,51 @@ object FileListViewModel : ViewModel() {
             }
             _files.postValue(listFiles)
         }
+    }
+    private fun getSpecificFiles() {
+        viewModelScope.launch(Dispatchers.IO){
+            val listFiles = ArrayList<File>()
+            val specificFiles = ArrayList<File>()
+            listFiles.addAll(File(Constant.path).listFiles()!!)
+            var pos = 0
+            while (pos < listFiles.size){
+                val file = listFiles[pos]
+                if (file.isDirectory){
+                    file.listFiles()?.let{ listFiles.addAll(it) }
+                }else{
+                    if (checkIfFileHasExtension(file.name, ext(typeOfFolder))){
+                        specificFiles.add(file)
+                    }
+                }
+                pos++
+            }
+
+            _files.postValue(specificFiles)
+        }
+    }
+
+    private fun ext(typeOfFolder: String): MutableList<String> {
+        return when(typeOfFolder){
+            "image" ->{
+                Constant.imageEx
+            }
+            "audio" ->{
+                Constant.musicEx
+            }
+            "video" ->{
+                Constant.videoEx
+            }
+            else ->{
+                Constant.docEx
+            }
+        }
+    }
+    private fun checkIfFileHasExtension(s: String, extend: MutableList<String>): Boolean {
+        extend.forEach {
+            if (s.endsWith(it))
+                return true
+            }
+        return false
     }
 
     /**
@@ -121,10 +166,39 @@ object FileListViewModel : ViewModel() {
 
     }
 
-
-    init {
+    fun updateTypeOfFolder(type: String){
+        stackPath.clear()
+        typeOfFolder = type
+        if (typeOfFolder == "download"){
+            stackPath.push(Constant.pathDownload)
+            getFiles(Constant.pathDownload)
+            return
+        }
+        if (typeOfFolder == "other"){
+            stackPath.push(Constant.path)
+            getFiles(Constant.path)
+            return
+        }
         stackPath.push(Constant.path)
-        getFiles(stackPath.peek())
+        getSpecificFiles()
+    }
+
+    fun changeStateLoading(){
+        if (_stateLoading.value == true)
+            _stateLoading.postValue(false)
+//        else _stateLoading.postValue(true)
+    }
+
+    fun clear(){
+        typeOfFolder = "other"
+        stackPath.clear()
+        _files.value?.clear()
+        _files.postValue(_files.value)
+        _isGrid.postValue(true)
+        _stateLoading.postValue(true)
+    }
+    init {
+        _stateLoading.postValue(true)
         _isGrid.postValue(true)
     }
 

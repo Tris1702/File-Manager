@@ -2,6 +2,7 @@ package com.example.file_manager.fragment.listAllFile
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +10,17 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.file_manager.MainActivity
 import com.example.file_manager.R
+import com.example.file_manager.activity.FolderDetailActivity
 import com.example.file_manager.inf.OnBackPressed
 import com.example.file_manager.databinding.FragmentFileListBinding
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import java.io.File
 
 
 class FileListFragment : Fragment(), OnBackPressed {
     private lateinit var binding: FragmentFileListBinding
-    private val viewModel: FileListViewModel by lazy { FileListViewModel }
     val gridLayout = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
     val listLayout = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
@@ -39,10 +40,9 @@ class FileListFragment : Fragment(), OnBackPressed {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = AllFileAdapter{
-            viewModel.openFolder(it)
+        val adapter = AllFileAdapter(requireContext()){
+            FileListViewModel.openFolder(it)
         }
-
 
         /**
          setting class handle menu mode
@@ -50,30 +50,32 @@ class FileListFragment : Fragment(), OnBackPressed {
          **/
         adapter.setHandleMenuMode(object :ClassHandleMenuMode(){
             override fun changeMenuMode() {
-                if(viewModel.menuMode == MenuMode.OPEN)
+                if(FileListViewModel.menuMode == MenuMode.OPEN)
                 {
                     binding.menu.visibility = View.VISIBLE
-                    viewModel.menuMode = MenuMode.SELECT
+                    FileListViewModel.menuMode = MenuMode.SELECT
+                    binding.btnAddFolder.visibility = View.GONE
                 }
                 else
                 {
                     binding.menu.visibility = View.GONE
-                    viewModel.menuMode = MenuMode.OPEN
+                    FileListViewModel.menuMode = MenuMode.OPEN
+                    binding.btnAddFolder.visibility = View.VISIBLE
                 }
             }
         })
 
         binding.btnCopy.setOnClickListener{
-            viewModel.copy()
+            FileListViewModel.copy()
         }
 
         binding.btnPaste.setOnClickListener {
-            viewModel.paste()
+            FileListViewModel.paste()
         }
 
         binding.btnShare.setOnClickListener {
             context?.let {
-                viewModel.share(it)
+                FileListViewModel.share(it)
             }
         }
 
@@ -81,23 +83,29 @@ class FileListFragment : Fragment(), OnBackPressed {
         binding.rcvAllFile.layoutManager = listLayout
 
         binding.rcvAllFile.adapter = adapter
-        viewModel.files.observe(viewLifecycleOwner){
+        FileListViewModel.files.observe(viewLifecycleOwner){
             adapter.listFile = it
             if (it.isNotEmpty()){
                 Timber.d("It has files")
-                binding.txtNoFile.visibility = View.INVISIBLE
+                FileListViewModel.changeStateLoading()
+                binding.rcvAllFile.visibility = View.VISIBLE
+                binding.loading.visibility = View.GONE
+                binding.txtNoFile.visibility = View.GONE
             }
             else{
+                FileListViewModel.changeStateLoading()
                 Timber.d("It has no files")
                 binding.txtNoFile.visibility = View.VISIBLE
+                binding.loading.visibility = View.GONE
+                binding.rcvAllFile.visibility = View.GONE
             }
         }
 
-        (activity as MainActivity).onBackPressed = this
+        (activity as FolderDetailActivity).onBackPressed = this
 
         binding.imgLayoutChange.setOnClickListener{
-            viewModel.changeLayout()
-            viewModel.isGrid.observe(viewLifecycleOwner){
+            FileListViewModel.changeLayout()
+            FileListViewModel.isGrid.observe(viewLifecycleOwner){
                 if (it) {
                     Timber.d("change to list")
                     binding.imgLayoutChange.setImageResource(R.drawable.ic_grid_on)
@@ -110,17 +118,26 @@ class FileListFragment : Fragment(), OnBackPressed {
                 }
             }
         }
+        FileListViewModel.stateLoading.observe(viewLifecycleOwner){
+            if (it){
+                binding.loading.visibility = View.VISIBLE
+                binding.rcvAllFile.visibility = View.GONE
+                binding.txtNoFile.visibility = View.GONE
+            }
+        }
     }
 
     override fun onClick() {
         Timber.d("Clicked back")
-        viewModel.onBackPressed()
+        FileListViewModel.onBackPressed()
     }
 
     override fun isClosed(): Boolean {
-        return viewModel.isRoot()
+        if (FileListViewModel.isRoot()){
+            FileListViewModel.clear()
+            return true
+        }
+        return false
     }
-
-
 
 }

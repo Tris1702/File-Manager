@@ -11,5 +11,16 @@ object Constant {
     var compressEx = mutableListOf(".zip", ".rar")
     var imageEx = mutableListOf(".png", ".jpg",".jpeg")
     var gifEx = mutableListOf(".gif")
+    var docEx = mutableListOf(".doc", ".docx", ".txt", ".pdf", ".ppt", "pptx", ".xls", ".xlsx")
     var path = ""
+    var pathDownload = ""
+
+    enum class TYPE_FOLDER{
+        IMAGE_FOLDER,
+        DOCUMENT_FOLDER,
+        AUDIO_FOLDER,
+        VIDEO_FOLDER,
+        DOWNLOAD_FOLDER,
+        OTHER_FOLDER
+    }
 }
