@@ -44,15 +44,21 @@
             tools:layout_editor_absoluteY="1dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <SearchView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="100dp"
         android:layout_marginHorizontal="50dp"
+        android:drawableEnd="@drawable/ic_search"
         android:background="@drawable/search_bar_style"
         android:padding="10dp"
+        android:text="  Search File...."
+        android:fontFamily="@font/dmsans_regular"
+        android:textAllCaps="false"
+        android:textAlignment="viewStart"
+        android:textColor="@color/action_bar_2"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

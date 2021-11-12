@@ -20,6 +20,10 @@ class FolderDetailActivity : AppCompatActivity() {
             binding.tvHeader.text = it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         }
 
+        binding.searchBar.setOnClickListener {
+
+        }
+
     }
     override fun onBackPressed() {
 

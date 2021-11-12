@@ -81,6 +81,9 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            searchBar.setOnClickListener {
+                startActivity(Intent(this@HomeActivity, SearchResultActivity::class.java))
+            }
         }
     }
 
