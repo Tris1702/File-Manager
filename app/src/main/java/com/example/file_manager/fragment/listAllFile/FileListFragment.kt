@@ -50,30 +50,60 @@ class FileListFragment : Fragment(), OnBackPressed {
          setting class handle menu mode
 
          **/
+
         adapter.setHandleMenuMode(object :ClassHandleMenuMode(){
-            override fun changeMenuMode() {
-                if(FileListViewModel.menuMode == MenuMode.OPEN)
-                {
-                    binding.menu.visibility = View.VISIBLE
-                    FileListViewModel.menuMode = MenuMode.SELECT
-                    binding.btnAddFolder.visibility = View.GONE
-                }
-                else
+            override fun changeMenuMode(mode: MenuMode) {
+                if(mode == MenuMode.OPEN)
                 {
                     binding.menu.visibility = View.GONE
                     FileListViewModel.menuMode = MenuMode.OPEN
                     binding.btnAddFolder.visibility = View.VISIBLE
+                }
+                else if(mode == MenuMode.SELECT)
+                {
+                    binding.menu.visibility = View.VISIBLE
+                    FileListViewModel.menuMode = mode
+                    binding.btnAddFolder.visibility = View.GONE
+
+                    binding.btnCut.visibility = View.VISIBLE
+                    binding.btnCopy.visibility = View.VISIBLE
+                    binding.btnShare.visibility = View.VISIBLE
+                    binding.btnClose.visibility = View.GONE
+                }
+                else if(mode == MenuMode.PASTE)
+                {
+                    binding.menu.visibility = View.VISIBLE
+                    FileListViewModel.menuMode = mode
+                    binding.btnAddFolder.visibility = View.GONE
+
+
+                    binding.btnCopy.visibility = View.GONE
+                    binding.btnShare.visibility = View.GONE
+                    binding.btnClose.visibility = View.VISIBLE
+
                 }
             }
         })
 
         binding.btnCopy.setOnClickListener{
             FileListViewModel.copy()
+            setPasteMode()
         }
 
         binding.btnPaste.setOnClickListener {
             FileListViewModel.paste()
+            setOpenMode()
         }
+
+        binding.btnCut.setOnClickListener{
+            FileListViewModel.cut()
+            setPasteMode()
+        }
+
+        binding.btnClose.setOnClickListener{
+            setOpenMode()
+        }
+
 
         binding.btnShare.setOnClickListener {
             context?.let {
@@ -144,6 +174,36 @@ class FileListFragment : Fragment(), OnBackPressed {
             return true
         }
         return false
+    }
+
+    fun setOpenMode()
+    {
+        binding.menu.visibility = View.GONE
+        FileListViewModel.menuMode = MenuMode.OPEN
+        binding.btnAddFolder.visibility = View.VISIBLE
+    }
+
+    fun setSelectMode()
+    {
+        binding.menu.visibility = View.VISIBLE
+        FileListViewModel.menuMode = MenuMode.SELECT
+        binding.btnAddFolder.visibility = View.GONE
+
+        binding.btnCopy.visibility = View.VISIBLE
+        binding.btnShare.visibility = View.VISIBLE
+        binding.btnClose.visibility = View.GONE
+    }
+
+    fun setPasteMode()
+    {
+        binding.menu.visibility = View.VISIBLE
+        FileListViewModel.menuMode = MenuMode.PASTE
+        binding.btnAddFolder.visibility = View.GONE
+
+        binding.btnCut.visibility = View.INVISIBLE
+        binding.btnCopy.visibility = View.GONE
+        binding.btnShare.visibility = View.GONE
+        binding.btnClose.visibility = View.VISIBLE
     }
 
 }

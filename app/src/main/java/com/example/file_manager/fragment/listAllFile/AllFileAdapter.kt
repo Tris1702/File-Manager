@@ -81,7 +81,6 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
 
                 root.setOnClickListener {
                     if (file.isDirectory) {
-                        FileListViewModel.currentDictionary = file
                         onItemClick(file.path)
                     } else {
                         openFile(file, binding.root.context)
@@ -96,7 +95,14 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
                  */
                 root.setOnLongClickListener {
                     FileListViewModel.selectedFile = file
-                    handleMenuMode?.changeMenuMode()
+                    if(FileListViewModel.menuMode != MenuMode.OPEN)
+                    {
+                        handleMenuMode?.changeMenuMode(MenuMode.OPEN)
+                    }
+                    else
+                    {
+                        handleMenuMode?.changeMenuMode(MenuMode.SELECT)
+                    }
                     true
                 }
             }

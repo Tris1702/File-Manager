@@ -76,6 +76,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:drawableTop="@drawable/ic_add_folder"
         android:background="@android:color/transparent"/>
+
     <GridLayout
         android:id="@+id/menu"
         android:layout_width="0dp"
@@ -84,7 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@color/bottom_menu"
-        android:columnCount="4"
+        android:columnCount="5"
         android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatButton
@@ -93,6 +94,14 @@
             android:text="copy"
             android:drawableTop="@drawable/ic_copy"
             android:background="@android:color/transparent"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cut"
+            android:layout_marginTop="10dp"
+            android:text="cut"
+            android:drawableTop="@drawable/ic_cut"
+            android:background="@android:color/transparent"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_paste"
             android:layout_marginTop="10dp"
@@ -106,6 +115,15 @@
             android:text="share"
             android:drawableTop="@drawable/ic_share"
             android:background="@android:color/transparent"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_close"
+            android:layout_marginTop="10dp"
+            android:text="close"
+            android:drawableTop="@drawable/ic_close"
+            android:background="@android:color/transparent"/>
+
+
 
     </GridLayout>
 

@@ -25,6 +25,7 @@ import kotlin.io.path.copyTo
 object FileListViewModel : ViewModel() {
     var typeOfFolder = "other"
     val stackPath = Stack<String>()
+
     private val _files: MutableLiveData< ArrayList<File> > = MutableLiveData()
     val files: LiveData<ArrayList<File>> = _files
 
@@ -39,7 +40,7 @@ object FileListViewModel : ViewModel() {
      Variable copy - paste file
      **/
     var selectedFile: File? = null
-    var currentDictionary: File? = null
+    var currentDictionary: File = File(Constant.path)
     var menuMode: MenuMode = MenuMode.OPEN
     var handleMode: HandleMode = HandleMode.NONE
 
@@ -49,11 +50,13 @@ object FileListViewModel : ViewModel() {
 
     fun openFolder(path: String){
         stackPath.push(path)
+        currentDictionary = File(stackPath.peek())
         getFiles(path)
     }
 
     fun onBackPressed(){
         stackPath.pop()
+        currentDictionary= File(stackPath.peek())
         getFiles(stackPath.peek())
     }
 
@@ -121,8 +124,9 @@ object FileListViewModel : ViewModel() {
     fun createFolder(folderName: String){
         viewModelScope.launch(Dispatchers.IO){
             val newFile = File(currentDictionary, folderName)
+
             if (!newFile.exists()){
-                Log.e("create folder", "createFolder: ok", )
+                Log.e("create folder", newFile.toString() )
                 newFile.mkdir()
                 _files.value?.add(newFile)
                 _files.postValue(_files.value)
@@ -147,9 +151,10 @@ object FileListViewModel : ViewModel() {
         shareIntent.putExtra(Intent.EXTRA_STREAM, uriFile)
         startActivity(context, shareIntent, null)
     }
+
     fun cut()
     {
-
+        handleMode = HandleMode.CUT
     }
 
     fun copy()
@@ -163,18 +168,28 @@ object FileListViewModel : ViewModel() {
         if(handleMode == HandleMode.COPY)
         {
             val targetPath = currentDictionary?.toString() + "/" +selectedFile?.nameWithoutExtension +"."+ selectedFile?.extension
-            val target = Paths.get(targetPath)
             val destPath = selectedFile?.absolutePath
-            val dest = Paths.get(destPath)
-            dest.copyTo(target,false)
+            val targetFile = File(targetPath)
+            val destFile = File(destPath)
 
-            val newFile:File = File(targetPath)
-            _files.value?.add(newFile)
+            destFile.copyTo(targetFile,false)
+
+            _files.value?.add(targetFile)
             _files.postValue(_files.value)
+        }
+        else if(handleMode == HandleMode.CUT)
+        {
+            val targetPath = currentDictionary?.toString() + "/" +selectedFile?.nameWithoutExtension +"."+ selectedFile?.extension
+            val destPath = selectedFile?.absolutePath
+            val targetFile = File(targetPath)
+            val destFile = File(destPath)
+
+            _files.value?.add(targetFile)
+            _files.postValue(_files.value)
+            destFile.renameTo(targetFile)
 
         }
         handleMode = HandleMode.NONE
-
     }
 
     fun updateTypeOfFolder(type: String){
