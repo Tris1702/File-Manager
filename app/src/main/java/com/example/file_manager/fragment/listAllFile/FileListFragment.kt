@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.file_manager.CreateFolderDialog
 import com.example.file_manager.R
 import com.example.file_manager.activity.FolderDetailActivity
 import com.example.file_manager.inf.OnBackPressed
@@ -43,6 +44,7 @@ class FileListFragment : Fragment(), OnBackPressed {
         val adapter = AllFileAdapter(requireContext()){
             FileListViewModel.openFolder(it)
         }
+
 
         /**
          setting class handle menu mode
@@ -79,6 +81,10 @@ class FileListFragment : Fragment(), OnBackPressed {
             }
         }
 
+        binding.btnAddFolder.setOnClickListener {
+            val createFolderDialog = CreateFolderDialog()
+            createFolderDialog.show(parentFragmentManager, "create folder" )
+        }
 
         binding.rcvAllFile.layoutManager = listLayout
 

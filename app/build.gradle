@@ -49,4 +49,7 @@ dependencies {
 
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    //Easy permission
+    implementation 'pub.devrel:easypermissions:3.0.0'
 }

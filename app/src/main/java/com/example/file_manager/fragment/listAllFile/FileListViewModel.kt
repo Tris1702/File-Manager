@@ -16,7 +16,6 @@ import com.example.file_manager.BuildConfig
 import com.example.file_manager.common.Constant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.io.File
 import java.nio.file.Paths
 import java.util.*
@@ -117,6 +116,18 @@ object FileListViewModel : ViewModel() {
                 return true
             }
         return false
+    }
+
+    fun createFolder(folderName: String){
+        viewModelScope.launch(Dispatchers.IO){
+            val newFile = File(currentDictionary, folderName)
+            if (!newFile.exists()){
+                Log.e("create folder", "createFolder: ok", )
+                newFile.mkdir()
+                _files.value?.add(newFile)
+                _files.postValue(_files.value)
+            }
+        }
     }
 
     /**

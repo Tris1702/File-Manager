@@ -12,6 +12,9 @@ import androidx.core.content.ContextCompat
 import com.example.file_manager.common.Constant
 import com.example.file_manager.databinding.ActivityHomeBinding
 import timber.log.Timber
+import android.os.StatFs
+import pub.devrel.easypermissions.EasyPermissions
+
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityHomeBinding
@@ -30,6 +33,28 @@ class HomeActivity : AppCompatActivity() {
         }
 
         with(binding){
+
+            Timber.d("Calculate storage")
+            val internalStatFs = StatFs(Environment.getRootDirectory().absolutePath)
+            val externalStatFs = StatFs(Environment.getExternalStorageDirectory().absolutePath)
+            val KILOBYTE = 1024L
+
+            val internalTotal: Long = ( internalStatFs.blockCountLong * internalStatFs.blockSizeLong) / ( KILOBYTE * KILOBYTE * KILOBYTE )
+            val internalFree: Long = ( internalStatFs.availableBlocksLong * internalStatFs.blockSizeLong) / ( KILOBYTE * KILOBYTE * KILOBYTE )
+
+            val externalTotal: Long = ( externalStatFs.blockCountLong * externalStatFs.blockSizeLong) / ( KILOBYTE * KILOBYTE * KILOBYTE )
+            val externalFree: Long = ( externalStatFs.availableBlocksLong * externalStatFs.blockSizeLong) / ( KILOBYTE * KILOBYTE * KILOBYTE )
+
+            val total: Long = internalTotal + externalTotal
+            val free: Long = internalFree + externalFree
+            val used: Long = total - free
+
+            percentageOfUsed.max = 100
+            percentageOfUsed.progress = (100f * (used*1f/total)).toInt()
+
+            detailOfUsed.text = "${(total-free).toInt()}GB of ${total.toInt()}GB used"
+
+
             val intent = Intent(this@HomeActivity, FolderDetailActivity::class.java)
             btnOtherFolder.setOnClickListener {
                 intent.putExtra("typefolder", "other")
@@ -61,16 +86,20 @@ class HomeActivity : AppCompatActivity() {
 
 
     private fun checkPermission(): Boolean{
-        val res = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if(res == PackageManager.PERMISSION_GRANTED)
-            return true
-        return false
+        return (EasyPermissions.hasPermissions(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ))
+
     }
     private fun requestPermission(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            Toast.makeText(this, "Please Allow", Toast.LENGTH_SHORT).show()
-        }
-        else
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 111)
+        EasyPermissions.requestPermissions(
+            this,
+            "This app needs access to your storage",
+            111,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
     }
 }

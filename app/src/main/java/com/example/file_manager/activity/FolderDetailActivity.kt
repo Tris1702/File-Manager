@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.example.file_manager.databinding.ActivityFolderDetailBinding
 import com.example.file_manager.fragment.listAllFile.FileListViewModel
 import com.example.file_manager.inf.OnBackPressed
+import java.util.*
 
 class FolderDetailActivity : AppCompatActivity() {
     lateinit var onBackPressed: OnBackPressed
@@ -16,6 +17,7 @@ class FolderDetailActivity : AppCompatActivity() {
 
         intent.getStringExtra("typefolder")?.let{
             FileListViewModel.updateTypeOfFolder(it)
+            binding.tvHeader.text = it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         }
 
     }

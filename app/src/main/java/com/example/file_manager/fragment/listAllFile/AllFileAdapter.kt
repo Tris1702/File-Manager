@@ -2,7 +2,6 @@ package com.example.file_manager.fragment.listAllFile
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +12,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import com.example.file_manager.BuildConfig
+import com.example.file_manager.BuildConfig.APPLICATION_ID
 import com.example.file_manager.common.Constant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -67,10 +67,6 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
                                 imgIconFile.setImageResource(R.drawable.ic_audio)
                             }
                             checkIfFileHasExtension(url.toString(), Constant.imageEx) -> {
-//                                val drawable = withContext(Dispatchers.IO) {
-//                                    Drawable.createFromPath(path)
-//                                }
-//                                imgIconFile.setImageDrawable(drawable)
                                 imgIconFile.setImageResource(R.drawable.ic_image)
                             }
                             checkIfFileHasExtension(url.toString(), Constant.videoEx) -> {

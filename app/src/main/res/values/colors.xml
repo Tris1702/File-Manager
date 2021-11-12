@@ -12,4 +12,5 @@
     <color name="background">#F8F8F8</color>
     <color name="theme">#577399</color>
     <color name="bottom_menu">#B2C0CD</color>
+    <color name="edt_bg">#F1EFEF</color>
 </resources>
