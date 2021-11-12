@@ -5,7 +5,9 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.view.Menu
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.file_manager.inf.OnBackPressed
@@ -51,4 +53,21 @@ class MainActivity : AppCompatActivity() {
         else
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 111)
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.search_view, menu)
+//        val searchView = menu?.findItem(R.menu.search_view)?.actionView as SearchView
+//
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
+//        return true
+//    }
 }

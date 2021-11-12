@@ -1,10 +1,9 @@
 package com.example.file_manager.fragment.listAllFile
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.file_manager.MainActivity
@@ -15,12 +14,14 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 
 
-class FileListFragment : Fragment(), OnBackPressed {
+class FileListFragment : Fragment(), OnBackPressed, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
     private lateinit var binding: FragmentFileListBinding
     private val viewModel: FileListViewModel by lazy { FileListViewModel() }
     val gridLayout = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
     val listLayout = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
+    val adapter = AllFileAdapter{
+        viewModel.openFolder(it)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,9 +37,7 @@ class FileListFragment : Fragment(), OnBackPressed {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = AllFileAdapter{
-            viewModel.openFolder(it)
-        }
+
         binding.rcvAllFile.layoutManager = listLayout
 
         binding.rcvAllFile.adapter = adapter
@@ -80,6 +79,31 @@ class FileListFragment : Fragment(), OnBackPressed {
 
     override fun isClosed(): Boolean {
         return viewModel.isRoot()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.search_view, menu)
+        var searchView = menu.findItem(R.menu.search_view).actionView as SearchView
+        searchView.setOnQueryTextListener(this)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        adapter.filter.filter(query)
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        adapter.filter.filter(newText)
+        return false
+    }
+
+    override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+        return true
+    }
+
+    override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+        return true
     }
 
 }

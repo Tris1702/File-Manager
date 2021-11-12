@@ -5,6 +5,8 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.file_manager.R
 import com.example.file_manager.databinding.ItemFileBinding
@@ -14,20 +16,18 @@ import androidx.core.content.FileProvider
 import com.example.file_manager.BuildConfig
 import com.example.file_manager.common.Constant
 import timber.log.Timber
-import java.util.Arrays
-
-
-
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AllFileAdapter(private var onItemClick: (String) -> Unit)
-    : RecyclerView.Adapter<AllFileAdapter.AllFileViewHolder>() {
+    : RecyclerView.Adapter<AllFileAdapter.AllFileViewHolder>(), Filterable {
     var listFile = ArrayList<File>()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
-
+    var mlistFile = listFile
     inner class AllFileViewHolder(private val binding: ItemFileBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(file: File) {
             with(binding){
@@ -128,5 +128,37 @@ class AllFileAdapter(private var onItemClick: (String) -> Unit)
                 return true
         }
         return false
+    }
+
+    override fun getFilter(): Filter {
+        return fileFilter
+    }
+
+    private val fileFilter = object : Filter(){
+        override fun performFiltering(p0: CharSequence?): FilterResults {
+            var filterList: ArrayList<File> = ArrayList()
+            if(p0 == null || p0.isEmpty()){
+                filterList = mlistFile
+            }else{
+                val query = p0.toString().trim().toLowerCase()
+                mlistFile.forEach{
+                    if(it.name.toLowerCase(Locale.ROOT).contains(query)) {
+                        filterList.add(it)
+                    }
+                }
+            }
+            val p1 = FilterResults()
+            p1.values = filterList
+            return p1
+        }
+
+        override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+            if(p1?.values is ArrayList<*>){
+                listFile.clear()
+                listFile = p1.values as ArrayList<File>
+                notifyDataSetChanged()
+            }
+        }
+
     }
 }
