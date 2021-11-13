@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.file_manager.CreateFolderDialog
 import com.example.file_manager.R
+import com.example.file_manager.SortByDialog
 import com.example.file_manager.activity.FolderDetailActivity
 import com.example.file_manager.inf.OnBackPressed
 import com.example.file_manager.databinding.FragmentFileListBinding
@@ -84,6 +85,12 @@ class FileListFragment : Fragment(), OnBackPressed {
         binding.btnAddFolder.setOnClickListener {
             val createFolderDialog = CreateFolderDialog()
             createFolderDialog.show(parentFragmentManager, "create folder" )
+        }
+
+        //Sort
+        binding.imgSort.setOnClickListener {
+            val sortByDialog = SortByDialog()
+            sortByDialog.show(parentFragmentManager, "sort")
         }
 
         binding.rcvAllFile.layoutManager = listLayout
