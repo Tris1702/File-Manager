@@ -48,7 +48,6 @@ class FileListFragment : Fragment(), OnBackPressed {
 
         /**
          setting class handle menu mode
-
          **/
 
         adapter.setHandleMenuMode(object :ClassHandleMenuMode(){
@@ -75,7 +74,6 @@ class FileListFragment : Fragment(), OnBackPressed {
                     binding.menu.visibility = View.VISIBLE
                     FileListViewModel.menuMode = mode
                     binding.btnAddFolder.visibility = View.GONE
-
 
                     binding.btnCopy.visibility = View.GONE
                     binding.btnShare.visibility = View.GONE
@@ -104,6 +102,10 @@ class FileListFragment : Fragment(), OnBackPressed {
             setOpenMode()
         }
 
+        binding.btnDelete.setOnClickListener{
+            FileListViewModel.delete()
+            setOpenMode()
+        }
 
         binding.btnShare.setOnClickListener {
             context?.let {
