@@ -167,14 +167,29 @@ class FileListFragment : Fragment(), OnBackPressed {
 
     override fun onClick() {
         Timber.d("Clicked back")
-        FileListViewModel.onBackPressed()
+        if(FileListViewModel.menuMode == MenuMode.SELECT)
+        {
+            setOpenMode()
+        }
+        else
+        {
+            FileListViewModel.onBackPressed()
+        }
     }
 
     override fun isClosed(): Boolean {
         if (FileListViewModel.isRoot()){
-            FileListViewModel.clear()
-            return true
+            if( FileListViewModel.menuMode == MenuMode.OPEN) {
+                FileListViewModel.clear()
+                return true
+            }
+            else if(FileListViewModel.menuMode == MenuMode.PASTE)
+            {
+                FileListViewModel.menuMode=MenuMode.SELECT
+                return false
+            }
         }
+
         return false
     }
 
