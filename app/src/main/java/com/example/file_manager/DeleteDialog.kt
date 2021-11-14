@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.example.file_manager.databinding.DeleteDirectoryBinding
 import com.example.file_manager.fragment.listAllFile.FileListViewModel
 import java.io.File
@@ -27,8 +28,6 @@ class DeleteDialog : DialogFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnCancel.setOnClickListener {
-            FileListViewModel.selectedFile = File("")
-
             dismiss()
         }
         binding.btnConfirm.setOnClickListener {
@@ -36,4 +35,11 @@ class DeleteDialog : DialogFragment(){
             dismiss()
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        FileListViewModel.selectedFile = File("")
+    }
+
+
 }
