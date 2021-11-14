@@ -11,6 +11,7 @@ import com.example.file_manager.databinding.ItemFileBinding
 import java.io.File
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.file_manager.BuildConfig
 import com.example.file_manager.BuildConfig.APPLICATION_ID
@@ -80,15 +81,7 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
                     }
                 }
 
-                if(file.absolutePath != FileListViewModel.selectedFile?.absolutePath)
-                {
-                    binding.cbSelected.visibility = View.GONE
-                }
-                else
-                {
-                    binding.cbSelected.visibility = View.VISIBLE
-                    binding.cbSelected.isChecked=true
-                }
+
 
                 root.setOnClickListener {
                     if (file.isDirectory) {
@@ -156,6 +149,17 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AllFileViewHolder, position: Int) {
         holder.bind(listFile[position])
+        if(listFile[position].absolutePath != FileListViewModel.selectedFile?.absolutePath)
+        {
+//            binding.cbSelected.visibility = View.GONE
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+        }
+        else
+        {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.action_bar_1))
+//            binding.cbSelected.visibility = View.VISIBLE
+//            binding.cbSelected.isChecked=true
+        }
     }
 
     override fun getItemCount(): Int {
