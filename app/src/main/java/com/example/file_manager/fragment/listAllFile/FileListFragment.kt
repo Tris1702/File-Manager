@@ -100,6 +100,8 @@ class FileListFragment : Fragment(), OnBackPressed {
 
         binding.btnClose.setOnClickListener{
             setOpenMode()
+            FileListViewModel.selectedFile = File("")
+            binding.rcvAllFile.adapter?.notifyDataSetChanged()
         }
 
         binding.btnDelete.setOnClickListener{

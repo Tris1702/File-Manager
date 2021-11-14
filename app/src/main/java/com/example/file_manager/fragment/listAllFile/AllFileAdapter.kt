@@ -100,7 +100,6 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
 
                 }
 
-
                 /*
                 Handle long click
                 long click -> view 3 options: move, share, delete
