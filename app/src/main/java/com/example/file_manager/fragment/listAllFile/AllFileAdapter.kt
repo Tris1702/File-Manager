@@ -2,6 +2,7 @@ package com.example.file_manager.fragment.listAllFile
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import com.example.file_manager.databinding.ItemFileBinding
 import java.io.File
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.file_manager.BuildConfig
 import com.example.file_manager.BuildConfig.APPLICATION_ID
@@ -79,14 +81,24 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
                     }
                 }
 
-                root.setOnClickListener {
-                    if (file.isDirectory) {
-                        onItemClick(file.path)
-                    } else {
-                        openFile(file, binding.root.context)
-                    }
-                }
 
+
+                root.setOnClickListener {
+                    if(FileListViewModel.menuMode != MenuMode.SELECT)
+                    {
+                        if (file.isDirectory) {
+                            onItemClick(file.path)
+                        } else {
+                            openFile(file, binding.root.context)
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"You must select option",Toast.LENGTH_LONG).show()
+                    }
+
+
+                }
 
                 /*
                 Handle long click
@@ -94,7 +106,15 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
                 In this branch, handle only move
                  */
                 root.setOnLongClickListener {
-                    FileListViewModel.selectedFile = file
+                    if(FileListViewModel.menuMode == MenuMode.SELECT)
+                    {
+                        FileListViewModel.selectedFile = File("")
+                    }
+                    else
+                    {
+                        FileListViewModel.selectedFile = file
+                    }
+                    notifyDataSetChanged()
                     if(FileListViewModel.menuMode != MenuMode.OPEN)
                     {
                         handleMenuMode?.changeMenuMode(MenuMode.OPEN)
@@ -144,6 +164,17 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AllFileViewHolder, position: Int) {
         holder.bind(listFile[position])
+        if(listFile[position].absolutePath != FileListViewModel.selectedFile?.absolutePath)
+        {
+//            binding.cbSelected.visibility = View.GONE
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+        }
+        else
+        {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.action_bar_1))
+//            binding.cbSelected.visibility = View.VISIBLE
+//            binding.cbSelected.isChecked=true
+        }
     }
 
     override fun getItemCount(): Int {

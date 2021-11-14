@@ -77,18 +77,21 @@
         android:drawableTop="@drawable/ic_add_folder"
         android:background="@android:color/transparent"/>
 
-    <GridLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/menu"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@color/bottom_menu"
-        android:columnCount="5"
+        android:weightSum="5"
         android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:id="@+id/btn_copy"
             android:layout_marginTop="10dp"
             android:text="copy"
@@ -96,6 +99,9 @@
             android:background="@android:color/transparent"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:id="@+id/btn_cut"
             android:layout_marginTop="10dp"
             android:text="cut"
@@ -103,6 +109,9 @@
             android:background="@android:color/transparent"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:id="@+id/btn_paste"
             android:layout_marginTop="10dp"
             android:drawableTop="@drawable/ic_paste"
@@ -110,6 +119,9 @@
             android:background="@android:color/transparent"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:id="@+id/btn_share"
             android:layout_marginTop="10dp"
             android:text="share"
@@ -117,14 +129,30 @@
             android:background="@android:color/transparent"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:id="@+id/btn_close"
             android:layout_marginTop="10dp"
             android:text="close"
             android:drawableTop="@drawable/ic_close"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:visibility="gone"
+
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/btn_delete"
+            android:layout_marginTop="10dp"
+            android:text="del"
+            android:drawableTop="@drawable/ic_delete"
+            android:background="@android:color/transparent"
+            />
 
 
 
-    </GridLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

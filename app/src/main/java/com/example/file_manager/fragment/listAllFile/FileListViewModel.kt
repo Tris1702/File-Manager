@@ -173,10 +173,21 @@ object FileListViewModel : ViewModel() {
             val targetFile = File(targetPath)
             val destFile = File(destPath)
 
-            destFile.copyTo(targetFile,false)
+            if(!targetFile.exists())
+            {
+                if(destFile.isDirectory)
+                {
+                    destFile.copyRecursively(targetFile,false)
+                }
+                else
+                {
+                    destFile.copyTo(targetFile,false)
+                }
 
-            _files.value?.add(targetFile)
-            _files.postValue(_files.value)
+                _files.value?.add(targetFile)
+                _files.postValue(_files.value)
+            }
+
         }
         else if(handleMode == HandleMode.CUT)
         {
@@ -185,13 +196,36 @@ object FileListViewModel : ViewModel() {
             val targetFile = File(targetPath)
             val destFile = File(destPath)
 
-            _files.value?.add(targetFile)
-            _files.postValue(_files.value)
-            destFile.renameTo(targetFile)
+            if(!targetFile.exists()){
+                _files.value?.add(targetFile)
+                _files.postValue(_files.value)
+                destFile.renameTo(targetFile)
+            }
+
 
         }
         handleMode = HandleMode.NONE
     }
+
+    fun delete()
+    {
+
+        val destPath = selectedFile?.absolutePath
+        val destFile = File(destPath)
+        _files.value?.remove(destFile)
+        _files.postValue(_files.value)
+        if(destFile.isDirectory)
+        {
+            destFile.deleteRecursively()
+        }
+        else
+        {
+            destFile.delete()
+        }
+
+        handleMode = HandleMode.NONE
+    }
+
 
     fun updateTypeOfFolder(type: String){
         stackPath.clear()

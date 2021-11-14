@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.file_manager.CreateFolderDialog
+import com.example.file_manager.DeleteDialog
 import com.example.file_manager.R
 import com.example.file_manager.activity.FolderDetailActivity
 import com.example.file_manager.inf.OnBackPressed
@@ -41,14 +42,28 @@ class FileListFragment : Fragment(), OnBackPressed {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val typeOfFolder = FileListViewModel.typeOfFolder
+        if(typeOfFolder == "other" || typeOfFolder == "download")
+        {
+            binding.btnAddFolder.visibility = View.VISIBLE
+        }
+        else
+        {
+            binding.btnAddFolder.visibility = View.GONE
+        }
+
+
+
+
         val adapter = AllFileAdapter(requireContext()){
             FileListViewModel.openFolder(it)
         }
 
 
+
         /**
          setting class handle menu mode
-
          **/
 
         adapter.setHandleMenuMode(object :ClassHandleMenuMode(){
@@ -76,7 +91,6 @@ class FileListFragment : Fragment(), OnBackPressed {
                     FileListViewModel.menuMode = mode
                     binding.btnAddFolder.visibility = View.GONE
 
-
                     binding.btnCopy.visibility = View.GONE
                     binding.btnShare.visibility = View.GONE
                     binding.btnClose.visibility = View.VISIBLE
@@ -102,8 +116,16 @@ class FileListFragment : Fragment(), OnBackPressed {
 
         binding.btnClose.setOnClickListener{
             setOpenMode()
+            FileListViewModel.selectedFile = File("")
+            binding.rcvAllFile.adapter?.notifyDataSetChanged()
         }
 
+        binding.btnDelete.setOnClickListener{
+            val deleteDialog = DeleteDialog()
+            deleteDialog.show(parentFragmentManager, "delete folder" )
+
+            setOpenMode()
+        }
 
         binding.btnShare.setOnClickListener {
             context?.let {
@@ -165,14 +187,32 @@ class FileListFragment : Fragment(), OnBackPressed {
 
     override fun onClick() {
         Timber.d("Clicked back")
-        FileListViewModel.onBackPressed()
+        if(FileListViewModel.menuMode == MenuMode.SELECT)
+        {
+            setOpenMode()
+            FileListViewModel.selectedFile = File("")
+
+
+        }
+        else
+        {
+            FileListViewModel.onBackPressed()
+        }
     }
 
     override fun isClosed(): Boolean {
         if (FileListViewModel.isRoot()){
-            FileListViewModel.clear()
-            return true
+            if( FileListViewModel.menuMode == MenuMode.OPEN) {
+                FileListViewModel.clear()
+                return true
+            }
+            else if(FileListViewModel.menuMode == MenuMode.PASTE)
+            {
+                FileListViewModel.menuMode=MenuMode.SELECT
+                return false
+            }
         }
+
         return false
     }
 
@@ -181,6 +221,7 @@ class FileListFragment : Fragment(), OnBackPressed {
         binding.menu.visibility = View.GONE
         FileListViewModel.menuMode = MenuMode.OPEN
         binding.btnAddFolder.visibility = View.VISIBLE
+        binding.rcvAllFile.adapter?.notifyDataSetChanged()
     }
 
     fun setSelectMode()
