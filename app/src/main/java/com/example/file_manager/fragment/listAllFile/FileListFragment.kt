@@ -135,12 +135,12 @@ class FileListFragment : Fragment(), OnBackPressed {
 //                    binding.rcvAllFile.adapter = adapter
 //                }
 
-
             val dialogBuilder = AlertDialog.Builder(context)
             dialogBuilder.setMessage("Do you want to delete this folder ?")
                 .setCancelable(false)
                 .setPositiveButton("Delete", DialogInterface.OnClickListener {
                         dialog, id -> FileListViewModel.delete()
+                        setOpenMode()
                 })
                 .setNegativeButton("Cancel", DialogInterface.OnClickListener {
                         dialog, id ->
