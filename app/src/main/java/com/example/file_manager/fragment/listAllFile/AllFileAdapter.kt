@@ -84,11 +84,20 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
 
 
                 root.setOnClickListener {
-                    if (file.isDirectory) {
-                        onItemClick(file.path)
-                    } else {
-                        openFile(file, binding.root.context)
+                    if(FileListViewModel.menuMode != MenuMode.SELECT)
+                    {
+                        if (file.isDirectory) {
+                            onItemClick(file.path)
+                        } else {
+                            openFile(file, binding.root.context)
+                        }
                     }
+                    else
+                    {
+                        Toast.makeText(context,"You must select option",Toast.LENGTH_LONG).show()
+                    }
+
+
                 }
 
 
@@ -98,7 +107,14 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
                 In this branch, handle only move
                  */
                 root.setOnLongClickListener {
-                    FileListViewModel.selectedFile = file
+                    if(FileListViewModel.menuMode == MenuMode.SELECT)
+                    {
+                        FileListViewModel.selectedFile = File("")
+                    }
+                    else
+                    {
+                        FileListViewModel.selectedFile = file
+                    }
                     notifyDataSetChanged()
                     if(FileListViewModel.menuMode != MenuMode.OPEN)
                     {
