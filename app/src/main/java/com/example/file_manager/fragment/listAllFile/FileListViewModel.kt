@@ -161,8 +161,9 @@ object FileListViewModel : ViewModel() {
                 listFiles.addAll(File(Constant.path).listFiles()!!)
             }
             else currentDictionary?.let { listFiles.addAll(it.listFiles()) }
-            listFiles.sort()
-            listFiles.reverse()
+            listFiles.sortBy {
+                it.lastModified()
+            }
             _files.postValue(listFiles)
         }
     }
@@ -173,7 +174,9 @@ object FileListViewModel : ViewModel() {
                 listFiles.addAll(File(Constant.path).listFiles()!!)
             }
             else currentDictionary?.let { listFiles.addAll(it.listFiles()) }
-            listFiles.sort()
+            listFiles.sortBy {
+                it.lastModified()
+            }
             listFiles.reverse()
             _files.postValue(listFiles)
         }
