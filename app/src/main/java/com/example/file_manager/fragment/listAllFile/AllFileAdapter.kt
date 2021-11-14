@@ -52,7 +52,10 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
         fun bind(file: File) {
             path = file.path
             with(binding){
-                txtFileName.text = file.name
+                if(FileListViewModel.isGrid.value == false && file.name.length > 5)
+                    txtFileName.text = file.name.substring(0, 5)
+                else
+                    txtFileName.text = file.name
                 GlobalScope.launch(Dispatchers.Main) {
                     if (file.isDirectory) {
                         imgIconFile.setImageResource(R.drawable.ic_folder)
