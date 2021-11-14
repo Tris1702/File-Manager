@@ -21,8 +21,17 @@
         android:fontFamily="@font/dmsans_regular"
         android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/img_icon_file"
         tools:text="Document" />
+
+    <CheckBox
+        android:id="@+id/cb_selected"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        ></CheckBox>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

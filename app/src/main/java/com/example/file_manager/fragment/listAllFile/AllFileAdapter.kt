@@ -2,6 +2,7 @@ package com.example.file_manager.fragment.listAllFile
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
@@ -79,6 +80,16 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
                     }
                 }
 
+                if(file.absolutePath != FileListViewModel.selectedFile?.absolutePath)
+                {
+                    binding.cbSelected.visibility = View.GONE
+                }
+                else
+                {
+                    binding.cbSelected.visibility = View.VISIBLE
+                    binding.cbSelected.isChecked=true
+                }
+
                 root.setOnClickListener {
                     if (file.isDirectory) {
                         onItemClick(file.path)
@@ -95,6 +106,7 @@ class AllFileAdapter(private val context: Context, private var onItemClick: (Str
                  */
                 root.setOnLongClickListener {
                     FileListViewModel.selectedFile = file
+                    notifyDataSetChanged()
                     if(FileListViewModel.menuMode != MenuMode.OPEN)
                     {
                         handleMenuMode?.changeMenuMode(MenuMode.OPEN)

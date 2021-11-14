@@ -170,6 +170,9 @@ class FileListFragment : Fragment(), OnBackPressed {
         if(FileListViewModel.menuMode == MenuMode.SELECT)
         {
             setOpenMode()
+            FileListViewModel.selectedFile = File("")
+            binding.rcvAllFile.adapter?.notifyDataSetChanged()
+
         }
         else
         {
