@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.file_manager.CreateFolderDialog
+import com.example.file_manager.DeleteDialog
 import com.example.file_manager.R
 import com.example.file_manager.activity.FolderDetailActivity
 import com.example.file_manager.inf.OnBackPressed
@@ -41,9 +42,24 @@ class FileListFragment : Fragment(), OnBackPressed {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val typeOfFolder = FileListViewModel.typeOfFolder
+        if(typeOfFolder == "other" || typeOfFolder == "download")
+        {
+            binding.btnAddFolder.visibility = View.VISIBLE
+        }
+        else
+        {
+            binding.btnAddFolder.visibility = View.GONE
+        }
+
+
+
+
         val adapter = AllFileAdapter(requireContext()){
             FileListViewModel.openFolder(it)
         }
+
 
 
         /**
@@ -105,7 +121,9 @@ class FileListFragment : Fragment(), OnBackPressed {
         }
 
         binding.btnDelete.setOnClickListener{
-            FileListViewModel.delete()
+            val deleteDialog = DeleteDialog()
+            deleteDialog.show(parentFragmentManager, "delete folder" )
+
             setOpenMode()
         }
 
@@ -173,7 +191,7 @@ class FileListFragment : Fragment(), OnBackPressed {
         {
             setOpenMode()
             FileListViewModel.selectedFile = File("")
-            binding.rcvAllFile.adapter?.notifyDataSetChanged()
+
 
         }
         else
@@ -203,6 +221,7 @@ class FileListFragment : Fragment(), OnBackPressed {
         binding.menu.visibility = View.GONE
         FileListViewModel.menuMode = MenuMode.OPEN
         binding.btnAddFolder.visibility = View.VISIBLE
+        binding.rcvAllFile.adapter?.notifyDataSetChanged()
     }
 
     fun setSelectMode()
