@@ -1,5 +1,7 @@
 package com.example.file_manager.fragment.listAllFile
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.file_manager.CreateFolderDialog
@@ -16,6 +20,8 @@ import com.example.file_manager.R
 import com.example.file_manager.activity.FolderDetailActivity
 import com.example.file_manager.inf.OnBackPressed
 import com.example.file_manager.databinding.FragmentFileListBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.io.File
@@ -121,10 +127,31 @@ class FileListFragment : Fragment(), OnBackPressed {
         }
 
         binding.btnDelete.setOnClickListener{
-            val deleteDialog = DeleteDialog()
-            deleteDialog.show(parentFragmentManager, "delete folder" )
+//            val deleteDialog = DeleteDialog()
+//            deleteDialog.show(parentFragmentManager, "delete folder")
+//                val prev = requireFragmentManager().findFragmentByTag("delete folder")
+//                if(prev==null)
+//                {
+//                    binding.rcvAllFile.adapter = adapter
+//                }
 
-            setOpenMode()
+
+            val dialogBuilder = AlertDialog.Builder(context)
+            dialogBuilder.setMessage("Do you want to delete this folder ?")
+                .setCancelable(false)
+                .setPositiveButton("Delete", DialogInterface.OnClickListener {
+                        dialog, id -> FileListViewModel.delete()
+                })
+                .setNegativeButton("Cancel", DialogInterface.OnClickListener {
+                        dialog, id ->
+                    FileListViewModel.selectedFile = File("")
+                    setOpenMode()
+                    dialog.cancel()
+                })
+
+            val alert = dialogBuilder.create()
+            alert.setTitle("Delete folder")
+            alert.show()
         }
 
         binding.btnShare.setOnClickListener {
