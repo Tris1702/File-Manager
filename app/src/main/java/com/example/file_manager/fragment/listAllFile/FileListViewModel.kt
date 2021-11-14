@@ -138,35 +138,27 @@ object FileListViewModel : ViewModel() {
     //Sort file
     fun sortFileAtoZ(){
         viewModelScope.launch(Dispatchers.IO){
-            val listFiles = ArrayList<File>()
-            if(isRoot()) {
-                listFiles.addAll(File(Constant.path).listFiles()!!)
+            val listFiles = _files.value
+            listFiles?.sortBy {
+                it.name
             }
-            else currentDictionary?.let { listFiles.addAll(it.listFiles()) }
-            listFiles.sort()
             _files.postValue(listFiles)
         }
     }
     fun sortFileZtoA(){
         viewModelScope.launch(Dispatchers.IO){
-            val listFiles = ArrayList<File>()
-            if(isRoot()) {
-                listFiles.addAll(File(Constant.path).listFiles()!!)
+            val listFiles = _files.value
+            listFiles?.sortBy {
+                it.name
             }
-            else currentDictionary?.let { listFiles.addAll(it.listFiles()) }
-            listFiles.sort()
-            listFiles.reverse()
+            listFiles?.reverse()
             _files.postValue(listFiles)
         }
     }
     fun sortFileEarliest(){
         viewModelScope.launch(Dispatchers.IO){
-            val listFiles = ArrayList<File>()
-            if(isRoot()) {
-                listFiles.addAll(File(Constant.path).listFiles()!!)
-            }
-            else currentDictionary?.let { listFiles.addAll(it.listFiles()) }
-            listFiles.sortBy {
+            val listFiles = _files.value
+            listFiles?.sortBy {
                 it.lastModified()
             }
             _files.postValue(listFiles)
@@ -174,15 +166,11 @@ object FileListViewModel : ViewModel() {
     }
     fun sortFileLatest(){
         viewModelScope.launch(Dispatchers.IO){
-            val listFiles = ArrayList<File>()
-            if(isRoot()) {
-                listFiles.addAll(File(Constant.path).listFiles()!!)
-            }
-            else currentDictionary?.let { listFiles.addAll(it.listFiles()) }
-            listFiles.sortBy {
+            val listFiles = _files.value
+            listFiles?.sortBy {
                 it.lastModified()
             }
-            listFiles.reverse()
+            listFiles?.reverse()
             _files.postValue(listFiles)
         }
     }
