@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Hang Tran/AndroidStudioProjects/File-Manager/app/src/main/res/drawable/action_bar_style.xml" value="0.2703125" />
         <entry key="..\:/Users/Hang Tran/AndroidStudioProjects/File-Manager/app/src/main/res/layout/activity_file_list.xml" value="0.176" />
         <entry key="..\:/Users/Hang Tran/AndroidStudioProjects/File-Manager/app/src/main/res/layout/activity_folder_detail.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Hang Tran/AndroidStudioProjects/File-Manager/app/src/main/res/layout/activity_home.xml" value="0.25416666666666665" />
